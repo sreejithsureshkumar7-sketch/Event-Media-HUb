@@ -1,37 +1,29 @@
-package com.example.eventmediahub.sync
-
-import android.content.Context
-import androidx.work.CoroutineWorker
-import androidx.work.WorkerParameters
+package com.eventmediahub.sync
 
 /**
- * Firebase Android sync architecture scaffold.
+ * Architecture scaffold for EventMediaHub background media sync.
  *
- * Production implementation should:
- * 1. Read the active event ID from local settings/Room.
- * 2. Query MediaStore for new images/videos.
- * 3. Check the local upload queue to avoid duplicates.
- * 4. Upload bytes to Firebase Cloud Storage.
- * 5. Write the media metadata document to Firestore.
- * 6. Mark the local queue item complete.
+ * Backend split:
+ * - Firebase Auth + Firestore for identity/event/media metadata.
+ * - Cloudinary for the actual image/video bytes.
  *
- * Required Firebase Android dependencies:
- * - Firebase Auth
- * - Firebase Firestore
- * - Firebase Storage
- * - WorkManager
+ * A production Android implementation should:
+ * 1. Use WorkManager for periodic/retryable work.
+ * 2. Query MediaStore for new media.
+ * 3. Read the selected eventId from encrypted/local app storage.
+ * 4. POST multipart data to Cloudinary:
+ *    https://api.cloudinary.com/v1_1/hqsg0uz5/image/upload
+ *    or
+ *    https://api.cloudinary.com/v1_1/hqsg0uz5/video/upload
+ *    with upload_preset=eventmediahub.
+ * 5. After a successful Cloudinary response, create the Firestore `media` document.
+ * 6. Persist a sync checkpoint and retry failures with WorkManager backoff.
+ *
+ * This file intentionally contains no Firebase service-account key or Cloudinary API Secret.
  */
-class SyncWorker(
-    appContext: Context,
-    workerParams: WorkerParameters
-) : CoroutineWorker(appContext, workerParams) {
-
-    override suspend fun doWork(): Result {
-        return try {
-            // TODO: implement MediaStore scan + Firebase Storage upload + Firestore write.
-            Result.success()
-        } catch (e: Exception) {
-            Result.retry()
-        }
+class SyncWorker {
+    companion object {
+        const val CLOUD_NAME = "hqsg0uz5"
+        const val UPLOAD_PRESET = "eventmediahub"
     }
 }
