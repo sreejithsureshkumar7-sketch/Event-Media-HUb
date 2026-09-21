@@ -3,12 +3,13 @@
 // Do NOT put Firebase Admin SDK / service-account private keys here.
 
 const firebaseConfig = {
-  apiKey: "PASTE_YOUR_FIREBASE_API_KEY",
-  authDomain: "PASTE_YOUR_FIREBASE_AUTH_DOMAIN",
-  projectId: "PASTE_YOUR_FIREBASE_PROJECT_ID",
-  storageBucket: "PASTE_YOUR_FIREBASE_STORAGE_BUCKET",
-  messagingSenderId: "PASTE_YOUR_FIREBASE_MESSAGING_SENDER_ID",
-  appId: "PASTE_YOUR_FIREBASE_APP_ID"
+  apiKey: "AIzaSyCGzg-qLKi2VvysGoTE7sPe8Ea98nKUJ4E",
+  authDomain: "eventmediahub-c6bf4.firebaseapp.com",
+  projectId: "eventmediahub-c6bf4",
+  storageBucket: "eventmediahub-c6bf4.firebasestorage.app",
+  messagingSenderId: "163373167010",
+  appId: "1:163373167010:web:c58864112ce10572d2c2fb",
+  measurementId: "G-LZBV5WQFB2"
 };
 
 const cloudinaryConfig = {
