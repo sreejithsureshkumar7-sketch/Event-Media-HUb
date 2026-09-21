@@ -1,23 +1,31 @@
-// EventMediaHub Firebase configuration.
-// Replace the values below with your Firebase Web App config.
-// NEVER put a Firebase Admin SDK/service-account private key in this file.
+// EventMediaHub Firebase + Cloudinary configuration.
+// Paste the EXACT firebaseConfig object copied from Firebase Console when you registered the Web App.
+// Do NOT put Firebase Admin SDK / service-account private keys here.
 
 const firebaseConfig = {
-  apiKey: "YOUR_FIREBASE_API_KEY",
-  authDomain: "YOUR_FIREBASE_PROJECT.firebaseapp.com",
-  projectId: "YOUR_FIREBASE_PROJECT_ID",
-  storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID",
-  appId: "YOUR_FIREBASE_APP_ID"
+  apiKey: "PASTE_YOUR_FIREBASE_API_KEY",
+  authDomain: "PASTE_YOUR_FIREBASE_AUTH_DOMAIN",
+  projectId: "PASTE_YOUR_FIREBASE_PROJECT_ID",
+  storageBucket: "PASTE_YOUR_FIREBASE_STORAGE_BUCKET",
+  messagingSenderId: "PASTE_YOUR_FIREBASE_MESSAGING_SENDER_ID",
+  appId: "PASTE_YOUR_FIREBASE_APP_ID"
 };
 
-if (Object.values(firebaseConfig).some(v => String(v).includes("YOUR_FIREBASE"))) {
-  console.warn("Configure js/firebase.js with your Firebase Web App config.");
+const cloudinaryConfig = {
+  cloudName: "hqsg0uz5",
+  uploadPreset: "eventmediahub"
+};
+
+const missingFirebaseConfig = Object.values(firebaseConfig).some(v => String(v).startsWith("PASTE_YOUR_"));
+if (missingFirebaseConfig) {
+  console.warn("EventMediaHub: paste your Firebase Web App config into js/firebase.js.");
 }
+
+window.EMH = window.EMH || {};
+window.EMH.config = { firebase: firebaseConfig, cloudinary: cloudinaryConfig };
 
 firebase.initializeApp(firebaseConfig);
 window.firebaseAuth = firebase.auth();
 window.firebaseDb = firebase.firestore();
-window.firebaseStorage = firebase.storage();
 
 window.firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(console.warn);
